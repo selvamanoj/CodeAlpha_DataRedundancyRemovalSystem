@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<title>{% block title %}Cloud Data Guard{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="{{ url_for('index') if session.get('logged_in') else url_for('login') }}"><span class="brand-icon">✓</span> Cloud Data Guard</a>
+{% if session.get('logged_in') %}<form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-outline">Log out</button></form>{% endif %}
+</header>
+<main class="container">
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="alerts" aria-live="polite">{% for category,message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer>CodeAlpha Cloud Computing Internship · Data Redundancy Removal System</footer>
+</body></html>

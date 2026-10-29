@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Admin Login · Cloud Data Guard{% endblock %}
+{% block content %}
+<section class="login-wrap"><div class="panel login-card">
+<div class="big-check">✓</div><p class="eyebrow">CLOUD DATABASE VALIDATION</p><h1>Welcome back</h1><p class="muted">Sign in to manage and verify records.</p>
+<form method="post" class="stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label for="password">Admin password</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200" placeholder="Enter admin password"><button class="btn btn-primary" type="submit">Sign in</button></form>
+<p class="small muted">Set ADMIN_PASSWORD in your environment before starting the app.</p>
+</div></section>
+{% endblock %}

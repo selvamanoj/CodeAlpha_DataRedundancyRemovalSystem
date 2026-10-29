@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Cloud Data Guard{% endblock %}
+{% block content %}
+<section class="hero"><div><p class="eyebrow">CLOUD COMPUTING · TASK 1</p><h1>Data Redundancy<br><span>Removal System</span></h1><p class="muted hero-copy">Validate incoming records, prevent duplicate emails, and keep your cloud database accurate.</p></div><div class="metric"><strong>{{ total }}</strong><span>Saved records</span></div></section>
+<section class="panel">
+<div class="section-head"><div><p class="eyebrow">ADD RECORD</p><h2>Validate new data</h2></div><span class="pill">Email uniqueness check</span></div>
+<form method="post" action="{{ url_for('add_record') }}" class="record-form">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="field"><label for="name">Full name</label><input id="name" name="name" required maxlength="100" placeholder="e.g. Priya Kumar"></div>
+<div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" required maxlength="254" placeholder="priya@example.com"></div>
+<div class="field"><label for="department">Department</label><input id="department" name="department" required maxlength="100" placeholder="e.g. AI & Data Science"></div>
+<button class="btn btn-primary" type="submit">Check &amp; save →</button>
+</form>
+<p class="hint"><b>How it works:</b> an existing email is rejected as redundant. A matching name and department with a different email is flagged as a possible match but accepted to avoid a false positive.</p>
+</section>
+<section class="panel">
+<div class="section-head"><div><p class="eyebrow">DATABASE</p><h2>Verified records</h2></div>
+<form method="get" action="{{ url_for('index') }}" class="search-form"><input name="q" value="{{ search }}" placeholder="Search records..." aria-label="Search records"><button class="btn btn-dark" type="submit">Search</button>{% if search %}<a href="{{ url_for('index') }}">Clear</a>{% endif %}</form></div>
+{% if records %}<div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Added</th><th>Action</th></tr></thead><tbody>
+{% for record in records %}<tr><td data-label="Name"><strong>{{ record.name }}</strong></td><td data-label="Email">{{ record.email }}</td><td data-label="Department"><span class="tag">{{ record.department }}</span></td><td data-label="Added">{{ record.created_at.strftime('%d %b %Y') if record.created_at else '' }}</td><td data-label="Action"><form method="post" action="{{ url_for('delete_record',record_id=record.id) }}" onsubmit="return confirm('Delete this record?');"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="delete-btn" type="submit">Delete</button></form></td></tr>{% endfor %}
+</tbody></table></div><p class="small muted">Showing up to 250 records. Use search to find a specific entry.</p>
+{% else %}<div class="empty"><div>⌕</div><h3>{{ 'No matching records' if search else 'No records yet' }}</h3><p>{{ 'Try another search term.' if search else 'Add a record above to test duplicate detection.' }}</p></div>{% endif %}
+</section>
+{% endblock %}
