@@ -23,5 +23,3 @@ The main objective of this project is to reduce duplicate data and improve data 
 ## Internship
 This project was developed as part of the CodeAlpha Cloud Computing Internship.
 
-## Author
-selvamanoj
